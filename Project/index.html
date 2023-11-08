@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="cloud.jfif">
+</head>
+<body>
+    <div class="header">
+        <h1>Weather Watch</h1>
+    </div>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter city name:"  id="t1">
+            <button><img src="search.png">  </button>
+        </div>
+        <div class="weather">
+            <img src="rain1.png" class="weather-icon">
+            <h1 class="temp"> 22°c</h1>
+            <h1 class="city">Pune</h1>
+            <div class="details">
+                <div class="col">
+                    <img src="humidity.png">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="wind.png">
+                    <div>
+                        <p class="wind">13km/h</p>
+                    <p>Wind Speed</p>
+                     </div>
+                </div>
+                </div>
+                <div class="day">
+    
+                   <button id="btn" onclick="redirectToSecondPage()">5-DAY FORCAST </button>
+                   <br><br>
+                   <p id="i1">Want to know Information about weather click the button below</p>
+                   <input type="button" onclick="change()" value="Weather Info" id="btn1">
+                </div>
+            </div>
+        </div>
+        <script>
+            function redirectToSecondPage() 
+            {
+        const cityInput = document.getElementById("t1").value;
+        window.location.href = "wether.html?city=" + encodeURIComponent(cityInput);
+          }
+            function change()
+            {
+                window.open("https://weather.com/en-IN/?Goto=Redirected","_blank")
+            }
+            const apiKey="be5ab37b3f2930a7aaf738b04e7688e3";
+            const apiURL="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+            const searchbox=document.querySelector(".search input");
+            const searchBtn=document.querySelector(".search button");
+            const weatherIcon=document.querySelector(".weather-icon");
+            async function checkWether(city)
+            {
+                
+                const response=await fetch(apiURL+ city + `&appid=${apiKey}`);
+                var data=await response.json();
+                console.log(data);
+                document.querySelector(".city").innerHTML=data.name;
+                
+                document.querySelector(".temp").innerHTML= Math.round(data.main.temp)+"°C";
+
+                document.querySelector(".humidity").innerHTML=data.main.humidity+ "%";
+                document.querySelector(".wind").innerHTML=data.wind.speed+ "km/h";
+
+                if(data.weather[0].main=="Clouds")
+                {
+                    weatherIcon.src="clouds.png" ;
+                    document.body.style.backgroundImage = "url('cloudy-skybg.png')";
+                }
+                else if(data.weather[0].main=="Clear"){
+                    weatherIcon.src="clear.png";
+                    document.body.style.backgroundImage="url('clear-skybg.png')";
+                }
+                else if(data.weather[0].main=="Rain"){
+                    weatherIcon.src="rain1.png"
+                    document.body.style.backgroundImage="url('heavy-rainbg.png')"
+                }
+                else if(data.weather[0].main=="Drizzle"){
+                    weatherIcon.src="drizzle.png"
+                    document.body.style.backgroundImage="url('drizzlebg.png')"
+                }
+                else if(data.weather[0].main=="Mist"){
+                    weatherIcon.src="mist.png"
+                    document.body.style.backgroundImage="url('mistbg.png')"
+                }
+                else{
+                    document.body.style.backgroundImage="url('clear-skybg.png')" 
+                }
+            }
+
+            searchBtn.addEventListener("click",()=>{
+                 checkWether(searchbox.value);
+
+            })
+            
+            </script>
+
+</body>
+</html> 
