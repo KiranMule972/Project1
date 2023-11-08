@@ -1,1 +1,1 @@
-# Project1
+I designed and developed a user-friendly weather app using HTML, CSS, and JavaScript. The app provides current weather information for a user-specified city on the first page, and with a simple click, seamlessly transitions to a second page displaying a 5-day weather forecast for the same city. The project leverages the OpenWeatherMap API to gather real-time weather data, enhancing the user's experience and accessibility.
